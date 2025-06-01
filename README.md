@@ -21,9 +21,10 @@ We will work on some weekly projects and this projects will be implemented in Py
 
 ### Week 1
 - Introduction: Why Cybersecurity? [SR]
-- Technique and HUman Beings [SR]
+- Technique and Human Beings [SR]
 - Cryptography [SR]
 - Crypto Basics [OF]
+- Assignment #1
 
 ### Week 2
 
