@@ -25,8 +25,9 @@ The next assigment includes a weekly reading of the SANS Internet Storm Center D
 - Create a presentation to share during the class and present your findings and have a discussion (12-15 min).
 - I will lead the discussion about the other diaries that I think are woth and interesting and then you will present.
 
-Calendar: [Jun 5, 12, 19, 26
-]
+Calendar: [Jun 5, 12, 19, 26]
+URL: https://isc.sans.edu/
+
 ## Syllabus
 
 ### Week 1
