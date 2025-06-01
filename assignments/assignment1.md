@@ -7,5 +7,6 @@ Available tasks:
 
 - encrypt/decrypt using the Caesar Cipher.
 - perform cryptoanalisis on the ciphertext using as a reference the three available corpus of data
+- plot your statistical analysis from the corpus of data
 
 Happy hacking!

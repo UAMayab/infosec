@@ -17,6 +17,16 @@ We will work on some weekly projects and this projects will be implemented in Py
 - Chauhan, S. R, and S Jangra. Computer Security and Encryption : An Introduction. 1st ed. Dulles, Virginia: Mercury Learning and Information, 2020. Print. (ID: CJ)
 - Sharp, Robin. Introduction to Cybersecurity : A Multidisciplinary Challenge. First edition. Cham, Switzerland: Springer, 2024. Web. (ID: SR)
 
+## Recurrent Assignment #0
+The next assigment includes a weekly reading of the SANS Internet Storm Center Diaries every day, starting from May, 26 2025. This activity is due every Thursday. What is expected from you? 
+- To read every single diary entry for the corresponding week.
+- Pick any one of your interest.
+- Do a research on that topic to go a little deeper on than topic.
+- Create a presentation to share during the class and present your findings and have a discussion (12-15 min).
+- I will lead the discussion about the other diaries that I think are woth and interesting and then you will present.
+
+Calendar: [Jun 5, 12, 19, 26
+]
 ## Syllabus
 
 ### Week 1
@@ -25,6 +35,7 @@ We will work on some weekly projects and this projects will be implemented in Py
 - Cryptography [SR]
 - Crypto Basics [OF]
 - Assignment #1
+- Assignment #2
 
 ### Week 2
 
