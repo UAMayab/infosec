@@ -1,5 +1,7 @@
 # User defined files
 assignments/data/ciphertext
 assignments/data/key.pem
+information_security_book.pdf
 
 # User defined directories
+slides/
