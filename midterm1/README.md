@@ -108,10 +108,4 @@ All activities must be conducted within your controlled lab environment. Unautho
 
 ---
 
-## Optional Extra Credit
-- Use of `Nikto`, `Enum4linux`, or `msfvenom`
-- Identification of non-default credentials or weak passwords
-
----
-
 **Good luck, and think like an attacker—defend like a pro!**
