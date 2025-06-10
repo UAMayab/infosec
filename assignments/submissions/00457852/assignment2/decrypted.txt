@@ -1,0 +1,4 @@
+This is nothing "amazingly new", but more of a reminder to secure your "authorized_keys" file for SSH. 
+One of the first things I see even simple bots do to obtain persistent access to a UNIX system is to 
+add a key to the authorized_keys file of whatever account they are compromising.
+
