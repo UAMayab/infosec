@@ -46,4 +46,9 @@ URL: https://isc.sans.edu/
 
 ### Software Tools
 - [Computer Forensics Tool Testing Program (CFTT)](https://www.nist.gov/itl/ssd/software-quality-group/computer-forensics-tool-testing-program-cftt)
-- ()[]
+- [Autopsy Digital Forensics](https://www.autopsy.com/)
+- [Poster & Cheat Sheets](https://www.sans.org/posters/?focus-area=digital-forensics&msc=dfir-lp)
+- [SIFT Workstation](https://www.sans.org/tools/sift-workstation/)
+- [Paladin Forensic Suite](https://sumuri.com/software/paladin/)
+- [CAINE Computer Forensic](https://www.caine-live.net/)
+- [SMART for Linux](http://www.asrdata.com/forensic-software/smart-for-linux/)
