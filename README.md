@@ -44,3 +44,5 @@ URL: https://isc.sans.edu/
 
 ### Week 4
 
+### Software Tools
+- (Computer Forensics Tool Testing Program (CFTT))[https://www.nist.gov/itl/ssd/software-quality-group/computer-forensics-tool-testing-program-cftt]
