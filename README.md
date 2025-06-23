@@ -52,3 +52,6 @@ URL: https://isc.sans.edu/
 - [Paladin Forensic Suite](https://sumuri.com/software/paladin/)
 - [CAINE Computer Forensic](https://www.caine-live.net/)
 - [SMART for Linux](http://www.asrdata.com/forensic-software/smart-for-linux/)
+- [Chain of Custody](https://www.nist.gov/document/sample-chain-custody-formdocx)
+- [File Signatures DB](https://filesignatures.net/)
+- [Computer Forensic Reference DataSet Portal](https://cfreds.nist.gov/)
