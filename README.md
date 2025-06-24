@@ -55,3 +55,5 @@ URL: https://isc.sans.edu/
 - [Chain of Custody](https://www.nist.gov/document/sample-chain-custody-formdocx)
 - [File Signatures DB](https://filesignatures.net/)
 - [Computer Forensic Reference DataSet Portal](https://cfreds.nist.gov/)
+- [FTK Imager](https://www.exterro.com/digital-forensics-software/ftk-imager)
+- []()
