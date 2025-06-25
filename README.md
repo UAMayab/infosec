@@ -56,4 +56,6 @@ URL: https://isc.sans.edu/
 - [File Signatures DB](https://filesignatures.net/)
 - [Computer Forensic Reference DataSet Portal](https://cfreds.nist.gov/)
 - [FTK Imager](https://www.exterro.com/digital-forensics-software/ftk-imager)
+- [Plaso](https://github.com/log2timeline/plaso)
+- [Timesketch](https://github.com/google/timesketch)
 - []()
