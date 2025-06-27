@@ -58,4 +58,6 @@ URL: https://isc.sans.edu/
 - [FTK Imager](https://www.exterro.com/digital-forensics-software/ftk-imager)
 - [Plaso](https://github.com/log2timeline/plaso)
 - [Timesketch](https://github.com/google/timesketch)
+- [RegRipper3.0](https://github.com/keydet89/RegRipper3.0)
+- [Eric Zimmerman](https://ericzimmerman.github.io/#!index.md)
 - []()
