@@ -60,4 +60,8 @@ URL: https://isc.sans.edu/
 - [Timesketch](https://github.com/google/timesketch)
 - [RegRipper3.0](https://github.com/keydet89/RegRipper3.0)
 - [Eric Zimmerman](https://ericzimmerman.github.io/#!index.md)
+- [RegRipper](https://www.sans.org/blog/regripper-ripping-registries-with-ease/)
+- [Thumbcache Viewer](https://thumbcacheviewer.github.io/)
+- [ESEDatabaseView](https://www.nirsoft.net/utils/ese_database_view.html)
+- [WinPrefetchViewtool](https://www.nirsoft.net/utils/win_prefetch_view.html)
 - []()
