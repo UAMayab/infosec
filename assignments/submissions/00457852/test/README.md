@@ -1,1 +1,0 @@
-Luis Octavio Castillo Sánchez

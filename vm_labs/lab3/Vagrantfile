@@ -1,0 +1,604 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  # Alpine Linux base box
+  config.vm.box = "generic/alpine318"
+
+  # VM name
+  config.vm.hostname = "liverpul-corp"
+
+  # Network configuration - private network accessible in LAN
+  config.vm.network "private_network", ip: "192.168.56.10"
+
+  # Provider specific settings
+  config.vm.provider "virtualbox" do |vb|
+    vb.name = "liverpul-corp-vm"
+    vb.memory = "1024"
+    vb.cpus = 2
+  end
+
+  # Provision the VM
+  config.vm.provision "shell", inline: <<-SHELL
+    set -e
+
+    echo "=== Updating system ==="
+    apk update
+    apk upgrade
+
+    echo "=== Installing required packages ==="
+    apk add mariadb mariadb-client vsftpd nginx php81 php81-fpm php81-mysqli php81-json bash shadow
+
+    echo "=== Creating users with dictionary passwords ==="
+    # Create users: pedro (password: football), pablo (password: welcome), paco (password: sunshine)
+    adduser -D -s /bin/bash pedro
+    echo "pedro:football" | chpasswd
+
+    adduser -D -s /bin/bash pablo
+    echo "pablo:welcome" | chpasswd
+
+    adduser -D -s /bin/bash paco
+    echo "paco:sunshine" | chpasswd
+
+    echo "=== Configuring MySQL/MariaDB ==="
+    # Initialize MariaDB data directory
+    /etc/init.d/mariadb setup
+    rc-service mariadb start
+    rc-update add mariadb default
+
+    # Wait for MariaDB to start
+    sleep 5
+
+    # Secure installation and create admin user
+    mysql -u root <<-SQL
+      -- Remove anonymous users
+      DELETE FROM mysql.user WHERE User='';
+
+      -- Create admin user with password 'admin'
+      CREATE USER 'admin'@'localhost' IDENTIFIED BY 'admin';
+      GRANT ALL PRIVILEGES ON *.* TO 'admin'@'localhost' WITH GRANT OPTION;
+
+      -- Allow admin from any host (for LAN access)
+      CREATE USER 'admin'@'%' IDENTIFIED BY 'admin';
+      GRANT ALL PRIVILEGES ON *.* TO 'admin'@'%' WITH GRANT OPTION;
+
+      -- Create fakystore database
+      CREATE DATABASE IF NOT EXISTS fakystore;
+
+      -- Create sample tables with data
+      USE fakystore;
+
+      CREATE TABLE products (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(100) NOT NULL,
+        price DECIMAL(10, 2) NOT NULL,
+        category VARCHAR(50),
+        stock INT DEFAULT 0
+      );
+
+      CREATE TABLE customers (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        username VARCHAR(50) NOT NULL,
+        email VARCHAR(100),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+
+      CREATE TABLE orders (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        customer_id INT,
+        product_id INT,
+        quantity INT,
+        order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (customer_id) REFERENCES customers(id),
+        FOREIGN KEY (product_id) REFERENCES products(id)
+      );
+
+      -- Insert sample data
+      INSERT INTO products (name, price, category, stock) VALUES
+        ('Laptop Pro 15', 1299.99, 'Electronics', 15),
+        ('Wireless Mouse', 29.99, 'Electronics', 50),
+        ('Office Chair', 199.99, 'Furniture', 20),
+        ('Desk Lamp', 45.50, 'Furniture', 35),
+        ('USB-C Cable', 12.99, 'Accessories', 100);
+
+      INSERT INTO customers (username, email) VALUES
+        ('john_doe', 'john@example.com'),
+        ('jane_smith', 'jane@example.com'),
+        ('bob_johnson', 'bob@example.com');
+
+      INSERT INTO orders (customer_id, product_id, quantity) VALUES
+        (1, 1, 1),
+        (1, 2, 2),
+        (2, 3, 1),
+        (3, 5, 3);
+
+      FLUSH PRIVILEGES;
+SQL
+
+    # Configure MariaDB to listen on all interfaces
+    sed -i 's/^skip-networking/#skip-networking/' /etc/my.cnf.d/mariadb-server.cnf
+    echo "bind-address = 0.0.0.0" >> /etc/my.cnf.d/mariadb-server.cnf
+    rc-service mariadb restart
+
+    echo "=== Configuring vsFTPd ==="
+    # Backup original config
+    cp /etc/vsftpd/vsftpd.conf /etc/vsftpd/vsftpd.conf.bak
+
+    # Configure vsFTPd with anonymous access
+    cat > /etc/vsftpd/vsftpd.conf <<-FTP
+# Allow anonymous FTP
+anonymous_enable=YES
+anon_upload_enable=YES
+anon_mkdir_write_enable=YES
+anon_other_write_enable=YES
+
+# Allow local users
+local_enable=YES
+write_enable=YES
+local_umask=022
+
+# Security settings
+chroot_local_user=YES
+allow_writeable_chroot=YES
+
+# Passive mode configuration
+pasv_enable=YES
+pasv_min_port=21100
+pasv_max_port=21110
+
+# Logging
+xferlog_enable=YES
+xferlog_file=/var/log/vsftpd.log
+
+# Listen on all interfaces
+listen=YES
+listen_ipv6=NO
+
+# Anonymous root directory
+anon_root=/var/ftp
+
+# Disable seccomp sandbox (fix for Alpine Linux)
+seccomp_sandbox=NO
+FTP
+
+    # Create FTP directories
+    mkdir -p /var/ftp/pub
+    chmod 777 /var/ftp/pub
+
+    # Create home directories for FTP users
+    mkdir -p /home/pedro/ftp
+    mkdir -p /home/pablo/ftp
+    mkdir -p /home/paco/ftp
+    chown pedro:pedro /home/pedro/ftp
+    chown pablo:pablo /home/pablo/ftp
+    chown paco:paco /home/paco/ftp
+
+    # Start vsFTPd
+    rc-service vsftpd start
+    rc-update add vsftpd default
+
+    echo "=== Configuring Nginx and PHP ==="
+    # Configure PHP-FPM
+    sed -i 's|listen = 127.0.0.1:9000|listen = /run/php-fpm.sock|' /etc/php81/php-fpm.d/www.conf
+    sed -i 's|;listen.owner = nobody|listen.owner = nginx|' /etc/php81/php-fpm.d/www.conf
+    sed -i 's|;listen.group = nobody|listen.group = nginx|' /etc/php81/php-fpm.d/www.conf
+
+    # Start PHP-FPM
+    rc-service php-fpm81 start
+    rc-update add php-fpm81 default
+
+    # Create web root
+    mkdir -p /var/www/liverpul
+
+    # Create Nginx configuration
+    cat > /etc/nginx/http.d/default.conf <<-NGINX
+server {
+    listen 80;
+    server_name _;
+    root /var/www/liverpul;
+    index index.html index.php;
+
+    location / {
+        try_files \\\$uri \\\$uri/ =404;
+    }
+
+    location ~ \\.php$ {
+        fastcgi_pass unix:/run/php-fpm.sock;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME \\\$document_root\\\$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    location ~ /\\.ht {
+        deny all;
+    }
+}
+NGINX
+
+    # Create the website files
+    cat > /var/www/liverpul/index.html <<-'HTML'
+<!DOCTYPE html>
+<html lang="en" ng-app="fakyStoreApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liverpul Corp</title>
+
+    <!-- Angular and Angular Material -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-animate.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-aria.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-messages.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.2.1/angular-material.min.js"></script>
+
+    <!-- Angular Material CSS -->
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.2.1/angular-material.min.css">
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            padding: 40px 20px;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            margin-top: 10px;
+            opacity: 0.9;
+        }
+
+        md-card {
+            margin-bottom: 20px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table th {
+            background-color: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 500;
+        }
+
+        table td {
+            padding: 12px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        table tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .error {
+            color: #f44336;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            color: #666;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body ng-controller="MainController">
+    <div class="container">
+        <div class="header">
+            <h1>Welcome to Liverpul Corp</h1>
+            <p>FakyStore Database Dashboard</p>
+        </div>
+
+        <md-card class="stats">
+            <div class="stat-card">
+                <div class="stat-number">{{products.length}}</div>
+                <div class="stat-label">Products</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{customers.length}}</div>
+                <div class="stat-label">Customers</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{orders.length}}</div>
+                <div class="stat-label">Orders</div>
+            </div>
+        </md-card>
+
+        <md-card ng-show="loading">
+            <md-card-content>
+                <div class="loading">
+                    <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+                    <p>Loading database tables...</p>
+                </div>
+            </md-card-content>
+        </md-card>
+
+        <md-card ng-show="error">
+            <md-card-content>
+                <div class="error">
+                    <p>{{error}}</p>
+                </div>
+            </md-card-content>
+        </md-card>
+
+        <md-card ng-show="!loading && !error">
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">Products</span>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-content>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>Category</th>
+                                <th>Stock</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="product in products">
+                                <td>{{product.id}}</td>
+                                <td>{{product.name}}</td>
+                                <td>${{product.price}}</td>
+                                <td>{{product.category}}</td>
+                                <td>{{product.stock}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </md-card-content>
+        </md-card>
+
+        <md-card ng-show="!loading && !error">
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">Customers</span>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-content>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Created At</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="customer in customers">
+                                <td>{{customer.id}}</td>
+                                <td>{{customer.username}}</td>
+                                <td>{{customer.email}}</td>
+                                <td>{{customer.created_at}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </md-card-content>
+        </md-card>
+
+        <md-card ng-show="!loading && !error">
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">Orders</span>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-content>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Customer ID</th>
+                                <th>Product ID</th>
+                                <th>Quantity</th>
+                                <th>Order Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="order in orders">
+                                <td>{{order.id}}</td>
+                                <td>{{order.customer_id}}</td>
+                                <td>{{order.product_id}}</td>
+                                <td>{{order.quantity}}</td>
+                                <td>{{order.order_date}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </md-card-content>
+        </md-card>
+    </div>
+
+    <script>
+        var app = angular.module('fakyStoreApp', ['ngMaterial']);
+
+        app.controller('MainController', function($scope, $http) {
+            $scope.products = [];
+            $scope.customers = [];
+            $scope.orders = [];
+            $scope.loading = true;
+            $scope.error = null;
+
+            $http.get('api.php')
+                .then(function(response) {
+                    $scope.loading = false;
+                    if (response.data.success) {
+                        $scope.products = response.data.data.products || [];
+                        $scope.customers = response.data.data.customers || [];
+                        $scope.orders = response.data.data.orders || [];
+                    } else {
+                        $scope.error = 'Error loading data: ' + response.data.error;
+                    }
+                })
+                .catch(function(error) {
+                    $scope.loading = false;
+                    $scope.error = 'Failed to connect to database API';
+                });
+        });
+    </script>
+</body>
+</html>
+HTML
+
+    # Create PHP API endpoint
+    cat > /var/www/liverpul/api.php <<-'PHP'
+<?php
+header('Content-Type: application/json');
+
+$host = 'localhost';
+$user = 'admin';
+$pass = 'admin';
+$db = 'fakystore';
+
+$response = array(
+    'success' => false,
+    'data' => array(),
+    'error' => null
+);
+
+try {
+    $conn = new mysqli($host, $user, $pass, $db);
+
+    if ($conn->connect_error) {
+        throw new Exception("Connection failed: " . $conn->connect_error);
+    }
+
+    // Fetch products
+    $products = array();
+    $result = $conn->query("SELECT * FROM products");
+    if ($result) {
+        while ($row = $result->fetch_assoc()) {
+            $products[] = $row;
+        }
+    }
+
+    // Fetch customers
+    $customers = array();
+    $result = $conn->query("SELECT * FROM customers");
+    if ($result) {
+        while ($row = $result->fetch_assoc()) {
+            $customers[] = $row;
+        }
+    }
+
+    // Fetch orders
+    $orders = array();
+    $result = $conn->query("SELECT * FROM orders");
+    if ($result) {
+        while ($row = $result->fetch_assoc()) {
+            $orders[] = $row;
+        }
+    }
+
+    $response['success'] = true;
+    $response['data'] = array(
+        'products' => $products,
+        'customers' => $customers,
+        'orders' => $orders
+    );
+
+    $conn->close();
+} catch (Exception $e) {
+    $response['error'] = $e->getMessage();
+}
+
+echo json_encode($response);
+?>
+PHP
+
+    # Set proper permissions
+    chown -R nginx:nginx /var/www/liverpul
+    chmod -R 755 /var/www/liverpul
+
+    # Start Nginx
+    rc-service nginx start
+    rc-update add nginx default
+
+    echo "=== Setup Complete ==="
+    echo ""
+    echo "=================================="
+    echo "Liverpul Corp VM Configuration"
+    echo "=================================="
+    echo ""
+    echo "IP Address: 192.168.56.10"
+    echo ""
+    echo "Users created:"
+    echo "  - pedro (password: football)"
+    echo "  - pablo (password: welcome)"
+    echo "  - paco (password: sunshine)"
+    echo ""
+    echo "MySQL/MariaDB:"
+    echo "  - Admin user: admin"
+    echo "  - Admin password: admin"
+    echo "  - Database: fakystore"
+    echo "  - Access: mysql -u admin -padmin"
+    echo ""
+    echo "FTP (vsFTPd):"
+    echo "  - Anonymous login: ENABLED"
+    echo "  - Port: 21"
+    echo "  - Users: pedro, pablo, paco"
+    echo ""
+    echo "Web Server (Nginx):"
+    echo "  - URL: http://192.168.56.10"
+    echo "  - Port: 80"
+    echo ""
+    echo "=================================="
+    echo ""
+  SHELL
+end

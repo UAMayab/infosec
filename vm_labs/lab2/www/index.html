@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faky Faky Website - Social Engineering Education</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <h1>Faky Faky Website</h1>
+                <p class="tagline">Learn About Social Engineering</p>
+            </div>
+        </header>
+
+        <main>
+            <section class="hero">
+                <h2>Welcome to the Social Engineering Lab</h2>
+                <p>This platform is designed to educate users about social engineering attacks and how to protect against them.</p>
+            </section>
+
+            <section class="images-section">
+                <div class="image-container">
+                    <img src="https://via.placeholder.com/400x250/e74c3c/ffffff?text=Phishing+Attack"
+                         alt="Phishing Attack - A common social engineering technique involving fraudulent emails">
+                    <p class="image-caption">Phishing Attacks: The most common form of social engineering</p>
+                </div>
+                <div class="image-container">
+                    <img src="https://via.placeholder.com/400x250/3498db/ffffff?text=Social+Engineering+Tactics"
+                         alt="Social Engineering Tactics - Various manipulation techniques used by attackers">
+                    <p class="image-caption">Understanding Social Engineering Tactics</p>
+                </div>
+            </section>
+
+            <section class="login-section">
+                <div class="login-box">
+                    <h2>Member Login</h2>
+                    <p class="login-description">Access exclusive social engineering training materials</p>
+
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="username">Username:</label>
+                            <input type="text"
+                                   id="username"
+                                   name="username"
+                                   placeholder="Enter your username"
+                                   required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">Password:</label>
+                            <input type="password"
+                                   id="password"
+                                   name="password"
+                                   placeholder="Enter your password"
+                                   required>
+                        </div>
+
+                        <div class="form-group checkbox-group">
+                            <input type="checkbox" id="remember" name="remember">
+                            <label for="remember">Remember me</label>
+                        </div>
+
+                        <button type="submit" class="btn-login">Login</button>
+
+                        <div class="form-links">
+                            <a href="#" class="forgot-password">Forgot password?</a>
+                            <a href="#" class="register">Create an account</a>
+                        </div>
+                    </form>
+
+                    <div id="message" class="message"></div>
+                </div>
+            </section>
+
+            <section class="info-section">
+                <h2>What is Social Engineering?</h2>
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3>Psychological Manipulation</h3>
+                        <p>Social engineering exploits human psychology rather than technical vulnerabilities to gain access to systems, data, or physical locations.</p>
+                    </div>
+                    <div class="info-card">
+                        <h3>Common Techniques</h3>
+                        <p>Phishing, pretexting, baiting, quid pro quo, and tailgating are among the most prevalent social engineering tactics.</p>
+                    </div>
+                    <div class="info-card">
+                        <h3>Protection Strategies</h3>
+                        <p>Awareness, verification, and skepticism are your best defenses. Always verify identities and be cautious with sensitive information.</p>
+                    </div>
+                    <div class="info-card">
+                        <h3>Training Importance</h3>
+                        <p>Regular training and simulated attacks help organizations and individuals recognize and respond to social engineering attempts.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 Faky Faky Website - Educational Purpose Only</p>
+            <p>Lab Environment for Information Security Training</p>
+            <p class="warning">This is a controlled environment. Do not use these techniques maliciously.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

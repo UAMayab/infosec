@@ -1,0 +1,11 @@
+pedro
+pablo
+paco
+admin
+administrator
+root
+user
+test
+guest
+mysql
+ftp
