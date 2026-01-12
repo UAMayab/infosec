@@ -1,67 +1,137 @@
-# Information Security class @ Anahuac Mayab University
-Welcome to the class of Information Security and Forensic Analysis of Summer 2025!
+# Anahuac Mayab University 
+## Information Technology and Digital Business Engineering 
+## Cybersecurity – Spring 2026 
 
-During the next 4 weeks we will be exploring the theoretical and practical aspects of InfoSec. Get ready ffor a challenging month of all about seccurity.
+### Book: Maurushat, Alana. Ethical Hacking. Ottawa, Ontario: University of Ottawa Press, 2019. Web. 
+### Professor Miguel A. Guirao Aguilera. MGTI, GCIH, CC, GitHub Fundamentals. 
+### e-mail: miguel.guirao@anahuac.mx 
 
-## GNU/Linux
-We will be using GNU/Linux as our base operating systems, there is no such thing as working in security and using Windows, it does not work and also it does not look cool!
-Information Security professional use any flavor of Unix/Linux. It is OK if you use Mac, we know that nobody is perfect!
-So, go ahead and download and install (virtualize) either Ubuntu or Kali. You can actually can use any other variant.
-We will be using mainly the command line, no GUI!
+#### Office Hours: Zoom, Monday & Friday, 30 min after class.
+#### Miguel Guirao is inviting you to a scheduled Zoom meeting. Topic: Miguel Guirao's Personal Meeting Room Join Zoom Meeting https://us04web.zoom.us/j/2542000350?pwd=zfYFzhUzY8MaiQajIptQ57phJMFVba.1  
+#### Meeting ID: 254 200 0350 Passcode: #5NKaE 
 
-## Projects
-We will work on some weekly projects and this projects will be implemented in Python!
 
-## Books
-- Stamp, M. (2011). Information security: Principles and practice (3rd ed.). Wiley. PDF (ID: OF)
-- Chauhan, S. R, and S Jangra. Computer Security and Encryption : An Introduction. 1st ed. Dulles, Virginia: Mercury Learning and Information, 2020. Print. (ID: CJ)
-- Sharp, Robin. Introduction to Cybersecurity : A Multidisciplinary Challenge. First edition. Cham, Switzerland: Springer, 2024. Web. (ID: SR)
+# Cybersecurity – Spring 2026 
+## INTRODUCTION 
 
-## Recurrent Assignment #0
-The next assigment includes a weekly reading of the SANS Internet Storm Center Diaries every day, starting from May, 26 2025. This activity is due every Thursday. What is expected from you? 
-- To read every single diary entry for the corresponding week.
-- Pick any one of your interest.
-- Do a research on that topic to go a little deeper on than topic.
-- Create a presentation to share during the class and present your findings and have a discussion (12-15 min).
-- I will lead the discussion about the other diaries that I think are woth and interesting and then you will present.
+Welcome to your journey into the essential field of cybersecurity. In our increasingly digital world, where everything from personal communications to critical infrastructure depends on interconnected systems, understanding how to protect information and technology has never been more important. This course will equip you with the fundamental knowledge and skills needed to navigate the complex landscape of digital security. 
 
-Calendar: [Jun 5, 12, 19, 26]
-URL: https://isc.sans.edu/
+## CERTIFICATIONS 
 
-## Syllabus
+This course is designed according to the exam objectives of two entry-level security certifications that are very popular in the market. This course is designed to prepare you to pass the TestOut Ethical Hacker Pro (CompTIA) and EC-Council Certified Ethical Hacker certifications. This certification measures not just what you know, but what you can do to evaluate a system's security and make recommendations to make the system more secure. 
 
-### Week 1
-- Introduction: Why Cybersecurity? [SR]
-- Technique and Human Beings [SR]
-- Cryptography [SR]
-- Crypto Basics [OF]
-- Assignment #1
-- Assignment #2
 
-### Week 2
+## TABLE OF CONTENT 
 
-### Week 3
+### Midterm I 
 
-### Week 4
+#### Unit 1: 
+- Introduction to Ethical Hacking. 
+- Introduction to Penetration Testing. 
+- Social Engineering & Physical Security. 
 
-### Software Tools
-- [Computer Forensics Tool Testing Program (CFTT)](https://www.nist.gov/itl/ssd/software-quality-group/computer-forensics-tool-testing-program-cftt)
-- [Autopsy Digital Forensics](https://www.autopsy.com/)
-- [Poster & Cheat Sheets](https://www.sans.org/posters/?focus-area=digital-forensics&msc=dfir-lp)
-- [SIFT Workstation](https://www.sans.org/tools/sift-workstation/)
-- [Paladin Forensic Suite](https://sumuri.com/software/paladin/)
-- [CAINE Computer Forensic](https://www.caine-live.net/)
-- [SMART for Linux](http://www.asrdata.com/forensic-software/smart-for-linux/)
-- [Chain of Custody](https://www.nist.gov/document/sample-chain-custody-formdocx)
-- [File Signatures DB](https://filesignatures.net/)
-- [Computer Forensic Reference DataSet Portal](https://cfreds.nist.gov/)
-- [FTK Imager](https://www.exterro.com/digital-forensics-software/ftk-imager)
-- [Plaso](https://github.com/log2timeline/plaso)
-- [Timesketch](https://github.com/google/timesketch)
-- [RegRipper3.0](https://github.com/keydet89/RegRipper3.0)
-- [Eric Zimmerman](https://ericzimmerman.github.io/#!index.md)
-- [RegRipper](https://www.sans.org/blog/regripper-ripping-registries-with-ease/)
-- [Thumbcache Viewer](https://thumbcacheviewer.github.io/)
-- [ESEDatabaseView](https://www.nirsoft.net/utils/ese_database_view.html)
-- [WinPrefetchViewtool](https://www.nirsoft.net/utils/win_prefetch_view.html)
-- []()
+#### Unit 2:
+Reconnaissance
+Scanning
+Enumeration
+Analyze Vulnerabilities
+
+### Midterm II
+
+#### Unit 3: 
+- System Hacking.
+- Malware.
+
+#### Unit 4: 
+- Sniffers, Session Hijacking and Denial of Service (DoS).
+- Intrusion Detection Systems (IDS), Firewalls & Honeypots.
+- Web Servers, Web Applications, and SQL Injections.
+
+#### Unit 5: 
+- Wi-Fi, Bluetooth, and Mobile Devices.
+- Cloud Computing and Internet of Things (IoT).
+- Cryptography.
+
+## GRADING 
+
+In general, your final grading is calculated in the following way:  
+
+| Term | Percentage |
+|-----------|------------|
+| Midterm 1 | 30% |
+| Midterm 2	| 30% |
+| Final		| 40% |
+
+ 
+
+Midterms grading: 
+
+    Quizzes		20% 
+
+    VM-based Labs	20% 
+
+    Hack the Box		25% 
+
+    Midterm Project	35% 
+
+ 
+
+Final Project 
+
+    To be defined. 
+
+ 
+
+GITHUB REPO 
+
+This course has a strong hands-on component where the student can experiment with the concepts, technologies, and tools to hack different systems. These environments are VM-based and insecure by definition, this means that you should not expose them to the Internet. These VM’s will a LAN IP address assigned during boot time and according to your own LAN environment. 
+
+The definition of all these VMs will be found at our class repo on Github, https://github.com/UAMayab/infosec  
+
+You should clone the repo and make sure that you always have the most up to date one. 
+
+These definitions are self-contained; they will have all the instructions that you need to start them and begin working on them. 
+
+HACK THE BOX (HTB) 
+
+This is the first time that I am including this excellent resource in a class, Hack the Box (https://www.hackthebox.com/). I highly recommend HTB if you decide to move forward into Cybersecurity as a professional career or just for fun. I use it to keep my skills sharp. 
+
+HTB offers an Academy, a Lab and a Capture the Flag component. With your free account, you have access to the Academy and Labs. In this class we will be using the Labs. Every week I will assign a couple of Labs for you to complete. You can work on them individually or in a team, but evidence of completion will be individually. 
+
+You will have a lot of fun working with the HTB Labs!! Student subscription is just 8 dlls BTW! 
+
+ 
+
+QUIZZES 
+
+We will have quizzes along the class or at the beginning of a class, and an end of midterm quiz too. These quizzes are based on the content discussed in class, readings, and book chapters that request you to read. 
+
+ 
+
+PROJECTS 
+
+All projects, either midterm or final projects, are optionally done in teams of two students. That is, either you work alone, or with somebody else and NO MORE. I guess in this class that there will be a blessed person who will be working alone. The content of the projects will be detailed at least two weeks before the due date. 
+
+ 
+
+SANS INTERNET STORM CENTER (ISC) 
+
+The next assignment includes a weekly reading of the SANS Internet Storm Center Diaries every day, starting from Jan 12th 2026. This activity is due every Sunday. What is expected from you? 
+
+  
+
+To read every single diary entry for the corresponding week. Pick any one of your interests. 
+
+Do research on that topic to go a little deeper. Create a video presentation to share your findings and have a discussion (<= 7 min). The grading for this activity falls under the Quizzes section. Quiz questions will arise from the diaries. 
+
+URL: https://isc.sans.edu/ 
+
+ 
+
+MIDTERMS 
+
+    Midterm I – March 2dn. Midnight. 
+
+    Midterm II - May 3rd. Midnight. 
+
+    Final - TBD 
