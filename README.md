@@ -69,10 +69,10 @@ Midterms grading:
 
 | Component | Percentage |
 |-----------|------------|
-| Quizzes	|	20% |
-| VM-based Labs	| 20% |
-| Hack the Box	|	25% |
-| Midterm Project | 35% |
+| Quizzes	|	10% |
+| VM-based Labs	| 10% |
+| Hack the Box	|	15% |
+| Midterm Project | 25% |
 
  
 
