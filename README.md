@@ -11,6 +11,7 @@
 #### Meeting ID: 254 200 0350 Passcode: #5NKaE 
 
 
+
 # Cybersecurity – Spring 2026 
 ## INTRODUCTION 
 
@@ -66,13 +67,12 @@ In general, your final grading is calculated in the following way:
 
 Midterms grading: 
 
-    Quizzes		20% 
-
-    VM-based Labs	20% 
-
-    Hack the Box		25% 
-
-    Midterm Project	35% 
+| Component | Percentage |
+|-----------|------------|
+| Quizzes	|	20% |
+| VM-based Labs	| 20% |
+| Hack the Box	|	25% |
+| Midterm Project | 35% |
 
  
 
