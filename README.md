@@ -82,7 +82,7 @@ Final Project
 
  
 
-GITHUB REPO 
+## GITHUB REPO 
 
 This course has a strong hands-on component where the student can experiment with the concepts, technologies, and tools to hack different systems. These environments are VM-based and insecure by definition, this means that you should not expose them to the Internet. These VM’s will a LAN IP address assigned during boot time and according to your own LAN environment. 
 
@@ -92,7 +92,7 @@ You should clone the repo and make sure that you always have the most up to date
 
 These definitions are self-contained; they will have all the instructions that you need to start them and begin working on them. 
 
-HACK THE BOX (HTB) 
+## HACK THE BOX (HTB) 
 
 This is the first time that I am including this excellent resource in a class, Hack the Box (https://www.hackthebox.com/). I highly recommend HTB if you decide to move forward into Cybersecurity as a professional career or just for fun. I use it to keep my skills sharp. 
 
@@ -101,25 +101,19 @@ HTB offers an Academy, a Lab and a Capture the Flag component. With your free ac
 You will have a lot of fun working with the HTB Labs!! Student subscription is just 8 dlls BTW! 
 
  
-
-QUIZZES 
+## QUIZZES 
 
 We will have quizzes along the class or at the beginning of a class, and an end of midterm quiz too. These quizzes are based on the content discussed in class, readings, and book chapters that request you to read. 
 
  
-
-PROJECTS 
+## PROJECTS 
 
 All projects, either midterm or final projects, are optionally done in teams of two students. That is, either you work alone, or with somebody else and NO MORE. I guess in this class that there will be a blessed person who will be working alone. The content of the projects will be detailed at least two weeks before the due date. 
 
- 
 
-SANS INTERNET STORM CENTER (ISC) 
+## SANS INTERNET STORM CENTER (ISC) 
 
 The next assignment includes a weekly reading of the SANS Internet Storm Center Diaries every day, starting from Jan 12th 2026. This activity is due every Sunday. What is expected from you? 
-
-  
-
 To read every single diary entry for the corresponding week. Pick any one of your interests. 
 
 Do research on that topic to go a little deeper. Create a video presentation to share your findings and have a discussion (<= 7 min). The grading for this activity falls under the Quizzes section. Quiz questions will arise from the diaries. 
@@ -127,11 +121,9 @@ Do research on that topic to go a little deeper. Create a video presentation to 
 URL: https://isc.sans.edu/ 
 
  
-
-MIDTERMS 
-
-    Midterm I – March 2dn. Midnight. 
-
-    Midterm II - May 3rd. Midnight. 
-
-    Final - TBD 
+## MIDTERMS DATES
+| Term | Date |
+|------|------|
+| Midterm I | March 2dn. Midnight. |
+| Midterm II | May 3rd. Midnight. |
+| Final | TBD |
