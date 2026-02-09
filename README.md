@@ -7,8 +7,6 @@
 ### e-mail: miguel.guirao@anahuac.mx 
 
 #### Office Hours: Zoom, Monday & Friday, 30 min after class.
-#### Miguel Guirao is inviting you to a scheduled Zoom meeting. Topic: Miguel Guirao's Personal Meeting Room Join Zoom Meeting https://us04web.zoom.us/j/2542000350?pwd=zfYFzhUzY8MaiQajIptQ57phJMFVba.1  
-#### Meeting ID: 254 200 0350 Passcode: #5NKaE 
 
 
 
@@ -32,10 +30,10 @@ This course is designed according to the exam objectives of two entry-level secu
 - Social Engineering & Physical Security. 
 
 #### Unit 2:
-Reconnaissance
-Scanning
-Enumeration
-Analyze Vulnerabilities
+- Reconnaissance
+- Scanning
+- Enumeration
+- Analyze Vulnerabilities
 
 ### Midterm II
 

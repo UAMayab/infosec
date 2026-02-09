@@ -5,7 +5,16 @@ information_security_book.pdf
 assignments/gpg101.md
 infosec.txt
 instructor_readme.txt
+*.ovpn
+people_names.txt
+create_users.sh
+generate_usernames.py
+usernames.txt
 
 
 # User defined directories
 slides/
+vm_labs/.vagrant/
+name_picker.py
+
+
