@@ -10,10 +10,15 @@
 
 
 
+
 # Cybersecurity – Spring 2026 
 ## INTRODUCTION 
 
 Welcome to your journey into the essential field of cybersecurity. In our increasingly digital world, where everything from personal communications to critical infrastructure depends on interconnected systems, understanding how to protect information and technology has never been more important. This course will equip you with the fundamental knowledge and skills needed to navigate the complex landscape of digital security. 
+
+## WORKSHOPS
+- [Nmap Workshop 101 - A Not at All Gentle Introduction to Nmap](nmap101.md)
+
 
 ## CERTIFICATIONS 
 
