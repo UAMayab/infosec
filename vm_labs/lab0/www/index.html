@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS Security Lab - Access Terminal</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="background">
+        <div class="stars"></div>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <div class="container">
+        <div class="terminal-window">
+            <div class="terminal-header">
+                <div class="terminal-buttons">
+                    <span class="btn-close"></span>
+                    <span class="btn-minimize"></span>
+                    <span class="btn-maximize"></span>
+                </div>
+                <div class="terminal-title">NEXUS_SECURITY_LAB://ACCESS_TERMINAL</div>
+            </div>
+
+            <div class="terminal-body">
+                <div class="logo">
+                    <pre class="ascii-art">
+    ███╗   ██╗███████╗██╗  ██╗██╗   ██╗███████╗
+    ████╗  ██║██╔════╝╚██╗██╔╝██║   ██║██╔════╝
+    ██╔██╗ ██║█████╗   ╚███╔╝ ██║   ██║███████╗
+    ██║╚██╗██║██╔══╝   ██╔██╗ ██║   ██║╚════██║
+    ██║ ╚████║███████╗██╔╝ ██╗╚██████╔╝███████║
+    ╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝
+                    </pre>
+                    <div class="subtitle">SECURITY WORKSHOP LABORATORY</div>
+                </div>
+
+                <div class="status-line">
+                    <span class="status-item">
+                        <span class="status-label">STATUS:</span>
+                        <span class="status-value online">ONLINE</span>
+                    </span>
+                    <span class="status-item">
+                        <span class="status-label">SECTOR:</span>
+                        <span class="status-value">LAB-0</span>
+                    </span>
+                    <span class="status-item">
+                        <span class="status-label">THREAT LEVEL:</span>
+                        <span class="status-value warning">VULNERABLE</span>
+                    </span>
+                </div>
+
+                <div class="warning-box">
+                    <div class="warning-header">⚠️ SECURITY NOTICE</div>
+                    <div class="warning-text">
+                        This is an intentionally vulnerable system designed for educational purposes.
+                        <br>
+                        Authorized personnel only. All access attempts are monitored.
+                    </div>
+                </div>
+
+                <div class="login-section">
+                    <div class="section-header">
+                        <span class="bracket">[</span> AUTHENTICATION REQUIRED <span class="bracket">]</span>
+                    </div>
+
+                    <form id="loginForm" class="login-form">
+                        <div class="form-group">
+                            <label for="username">
+                                <span class="prompt">&gt;</span> USERNAME:
+                            </label>
+                            <input
+                                type="text"
+                                id="username"
+                                name="username"
+                                class="cyber-input"
+                                placeholder="Enter credentials..."
+                                autocomplete="off"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">
+                                <span class="prompt">&gt;</span> PASSWORD:
+                            </label>
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                class="cyber-input"
+                                placeholder="••••••••"
+                                autocomplete="off"
+                            >
+                        </div>
+
+                        <div class="button-group">
+                            <button type="submit" class="cyber-button primary">
+                                <span class="button-text">ACCESS SYSTEM</span>
+                                <span class="button-glow"></span>
+                            </button>
+                            <button type="reset" class="cyber-button secondary">
+                                <span class="button-text">CLEAR</span>
+                            </button>
+                        </div>
+                    </form>
+
+                    <div id="message" class="message"></div>
+                </div>
+
+                <div class="info-panel">
+                    <div class="info-header">SYSTEM INFORMATION</div>
+                    <div class="info-content">
+                        <div class="info-item">
+                            <span class="info-label">HOSTNAME:</span>
+                            <span class="info-value">nmap-target.lab</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">IP ADDRESS:</span>
+                            <span class="info-value">192.168.56.10</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">SERVICES:</span>
+                            <span class="info-value">SSH, HTTP, TELNET, MYSQL</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">SECURITY:</span>
+                            <span class="info-value warning-text">MISCONFIGURED</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer">
+                    <span class="footer-text">NEXUS Labs &copy; 2026 | Nmap Security Workshop</span>
+                    <span class="footer-pulse">●</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+# Vagrant
+.vagrant/
+*.log
+
+# VirtualBox
+*.vbox
+*.vbox-prev
+
+# SSH keys
+*.pem
+*.key
+id_rsa*
+
+# Nmap output files
+*.xml
+*.gnmap
+*.nmap
+nmap_results.*
+scan_results.*
+
+# OS specific
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Backup files
+*.bak
+*.backup
+
+# User Files
+test_services.sh
+CHEATSHEET_backup.md
+
+# User directories
+.claude/
+.vagrant/
+
