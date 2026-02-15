@@ -2,19 +2,10 @@
 # Web Exploitation Lab - Vagrantfile
 # ==============================================================================
 #
-# Original Prompt:
-# "Create a similar Vagranfile to the previous one, but now with the following
-# services: FTP, Web Server and use Apache 2.4.49. If you have any question
-# ask me, Also, save this prompt as a comment in the Vagrantfile, along with
-# creation date and time and my username."
-#
 # Created: 2025-12-30
-# Author: mguirao
+# Author: Miguel Guirao
 # ==============================================================================
 # WARNING: This VM is intentionally insecure for educational purposes only!
-# - Apache 2.4.49 is vulnerable to CVE-2021-41773 (Path Traversal)
-# - Anonymous FTP access without authentication
-# - Exposed on public/bridged network
 # - Use only in isolated lab environments
 # ==============================================================================
 
@@ -23,19 +14,20 @@ Vagrant.configure("2") do |config|
   config.vm.box = "generic/alpine318"
 
   # Lab VM hostname
-  config.vm.hostname = "web-exploitation-lab"
+  config.vm.hostname = "web-exploitation"
 
   # Public network (bridged) - VM will get an IP on your physical network
+  # TODO: Student! You may need to change the name of the bridged network.
   config.vm.network "public_network", bridge: "wlp4s0"
 
   # VirtualBox provider settings
   config.vm.provider "virtualbox" do |vb|
-    vb.name = "WebExploitationLab"
+    vb.name = "WebExploitation"
     vb.memory = "1024"
     vb.cpus = 2
   end
 
-  # Provisioning script to set up FTP and Apache 2.4.49
+  # Provisioning script to set up FTP and Apache 
   config.vm.provision "shell", inline: <<-SHELL
     echo "================================================"
     echo "Setting up Web Exploitation Lab"
@@ -60,8 +52,8 @@ Vagrant.configure("2") do |config|
     mkdir -p /usr/local/src
     cd /usr/local/src
 
-    echo "Downloading Apache 2.4.49..."
-    # Download Apache 2.4.49 source
+    echo "Downloading Apache ..."
+    # Download Apache source
     wget -q https://archive.apache.org/dist/httpd/httpd-2.4.49.tar.gz
     tar -xzf httpd-2.4.49.tar.gz
     cd httpd-2.4.49
@@ -77,7 +69,7 @@ Vagrant.configure("2") do |config|
     mv apr-util-1.6.1 apr-util
     cd ..
 
-    echo "Configuring Apache 2.4.49..."
+    echo "Configuring Apache..."
     # Configure Apache with necessary modules
     ./configure \\
       --prefix=/usr/local/apache2 \\
@@ -147,7 +139,7 @@ LogLevel warn
     AddType application/x-gzip .gz .tgz
 </IfModule>
 
-# CGI directory (vulnerable configuration for CVE-2021-41773)
+# CGI directory 
 ScriptAlias /cgi-bin/ "/usr/local/apache2/cgi-bin/"
 <Directory "/usr/local/apache2/cgi-bin">
     AllowOverride None
@@ -198,7 +190,7 @@ EOF
 <body>
     <h1>Welcome to Web Exploitation Lab</h1>
     <p>This is an intentionally vulnerable web server for educational purposes.</p>
-    <p>Apache version: 2.4.49</p>
+    <p>Apache</p>
 </body>
 </html>
 EOF
@@ -207,7 +199,7 @@ EOF
     echo "5f4dcc3b5aa765d61d8327deb882cf99" > /usr/local/apache2/htdocs/flag.txt
     chmod 644 /usr/local/apache2/htdocs/flag.txt
 
-    # Configure vsftpd for anonymous FTP
+    # Configure vsftpd
     cat > /etc/vsftpd/vsftpd.conf <<'EOF'
 # Anonymous FTP configuration
 anonymous_enable=YES
@@ -241,9 +233,8 @@ EOF
     echo ""
     echo "Services running:"
     echo "  - Web Server: http://<IP_ADDRESS>"
-    echo "  - FTP: ftp://<IP_ADDRESS> (anonymous login)"
+    echo "  - FTP: ftp://<IP_ADDRESS>"
     echo ""
-    echo "Flag location: /usr/local/apache2/htdocs/flag.txt"
     echo "================================================"
   SHELL
 
@@ -258,10 +249,8 @@ EOF
 
     Services:
       - Web Server: http://<VM_IP_ADDRESS>
-      - FTP: ftp://<VM_IP_ADDRESS> (use 'anonymous' as username)
+      - FTP: ftp://<VM_IP_ADDRESS> 
 
-    Apache Version: 2.4.49 (CVE-2021-41773)
-    Flag: Access via web server at /flag.txt
 
     WARNING: This VM is intentionally vulnerable!
     Use only for educational purposes in isolated environments.
