@@ -23,7 +23,7 @@ Welcome to your journey into the essential field of cybersecurity. In our increa
 
 ## EXAMS
 - [Midterm #1](exams/midterm1/README.md)
-- [Midgterm #2]()
+- [Midterm #2]()
 - [Final Exam]()
 
 ## CERTIFICATIONS 
