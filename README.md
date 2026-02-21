@@ -21,6 +21,11 @@ Welcome to your journey into the essential field of cybersecurity. In our increa
 - [tcpdump Workshop - From Zero to Hero](workshops/tcpdump_workshop_guide.md)
 - [tcpdump Workshop - Uses Cases](workshops/tcpdump_use_cases.md)
 
+## EXAMS
+- [Midterm #1](exams/midterm1/README.md)
+- [Midgterm #2]()
+- [Final Exam]()
+
 ## CERTIFICATIONS 
 
 This course is designed according to the exam objectives of two entry-level security certifications that are very popular in the market. This course is designed to prepare you to pass the TestOut Ethical Hacker Pro (CompTIA) and EC-Council Certified Ethical Hacker certifications. This certification measures not just what you know, but what you can do to evaluate a system's security and make recommendations to make the system more secure. 
