@@ -1,0 +1,277 @@
+# ==============================================================================
+# Energía Marina - Web Exploitation Lab - Vagrantfile
+# ==============================================================================
+#
+# Created: 2026-02-15
+# Author: Miguel Guirao
+# ==============================================================================
+# WARNING: This VM is intentionally insecure for educational purposes only!
+# - Contains 5 OWASP Top 10 vulnerabilities
+# - Use only in isolated lab environments
+# ==============================================================================
+
+Vagrant.configure("2") do |config|
+  # Use Alpine Linux base box
+  config.vm.box = "generic/alpine318"
+
+  # Lab VM hostname
+  config.vm.hostname = "energia-marina"
+
+  # Public network (bridged) - VM will get an IP on your physical network
+  # TODO: Student! You may need to change the name of the bridged network.
+  config.vm.network "public_network", bridge: "wlp4s0"
+
+  # Sync the web files
+  config.vm.synced_folder "./www", "/tmp/www", type: "rsync"
+
+  # VirtualBox provider settings
+  config.vm.provider "virtualbox" do |vb|
+    vb.name = "EnergiaMarina-WebLab"
+    vb.memory = "2048"
+    vb.cpus = 2
+  end
+
+  # Provisioning script to set up Nginx, PHP, and MariaDB
+  config.vm.provision "shell", inline: <<-SHELL
+    echo "========================================================"
+    echo "Setting up Energía Marina Web Exploitation Lab"
+    echo "========================================================"
+
+    # Update package index
+    apk update
+
+    # Install Nginx, PHP, MariaDB and dependencies
+    apk add --no-cache \\
+      nginx \\
+      php82 \\
+      php82-fpm \\
+      php82-mysqli \\
+      php82-session \\
+      php82-json \\
+      php82-mbstring \\
+      php82-openssl \\
+      mariadb \\
+      mariadb-client \\
+      curl \\
+      vim
+
+    echo "Configuring MariaDB..."
+    # Initialize MariaDB
+    /etc/init.d/mariadb setup
+    rc-service mariadb start
+    rc-update add mariadb default
+
+    # Wait for MariaDB to be ready
+    sleep 5
+
+    # Create database and user (INSECURE - for lab purposes)
+    mysql -u root <<EOF
+CREATE DATABASE energia_marina;
+USE energia_marina;
+
+-- Employees table with SQL injection vulnerability
+CREATE TABLE empleados (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(50) NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  nombre VARCHAR(100),
+  departamento VARCHAR(50),
+  nivel_acceso VARCHAR(20)
+);
+
+-- Insert sample employees (passwords are intentionally weak)
+INSERT INTO empleados (username, password, nombre, departamento, nivel_acceso) VALUES
+('admin', 'admin123', 'Carlos Mendoza', 'Administración', 'admin'),
+('jperez', 'veracruz2024', 'Juan Pérez', 'Producción', 'user'),
+('mrodriguez', 'password', 'María Rodríguez', 'Ingeniería', 'user'),
+('lgarcia', 'qwerty', 'Luis García', 'Operaciones', 'user');
+
+-- Production data table
+CREATE TABLE produccion (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  fecha DATE,
+  plataforma VARCHAR(50),
+  barriles_diarios INT,
+  estado VARCHAR(20)
+);
+
+INSERT INTO produccion (fecha, plataforma, barriles_diarios, estado) VALUES
+('2024-01-15', 'Plataforma Veracruz-1', 15000, 'Operativa'),
+('2024-01-15', 'Plataforma Golfo-2', 12500, 'Operativa'),
+('2024-01-15', 'Plataforma Marina-3', 18000, 'Mantenimiento'),
+('2024-01-16', 'Plataforma Veracruz-1', 15200, 'Operativa');
+
+-- Contact messages table (for XSS vulnerability)
+CREATE TABLE mensajes (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(100),
+  email VARCHAR(100),
+  asunto VARCHAR(200),
+  mensaje TEXT,
+  fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Flags table (hidden flags for students to capture)
+CREATE TABLE flags (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  flag_name VARCHAR(50),
+  flag_value VARCHAR(100),
+  descripcion TEXT
+);
+
+INSERT INTO flags (flag_name, flag_value, descripcion) VALUES
+('FLAG_SQL', 'EM{5ql_1nj3ct10n_3n_v3r4cruz}', 'Flag obtenida mediante SQL Injection'),
+('FLAG_XSS', 'EM{cr0ss_s1t3_scr1pt1ng_m4r1n0}', 'Flag obtenida mediante XSS'),
+('FLAG_LFI', 'EM{l0c4l_f1l3_1nclus10n_p3tr0l30}', 'Flag obtenida mediante Directory Traversal'),
+('FLAG_CONFIG', 'EM{m1sc0nf1gur4t10n_gul0_mex1c0}', 'Flag obtenida mediante Security Misconfiguration'),
+('FLAG_AUTH', 'EM{br0k3n_4uth_3n3rg14_m4r1n4}', 'Flag obtenida mediante Broken Authentication');
+
+EOF
+
+    # Grant root access without password for lab purposes
+    mysql -u root <<EOF
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY '' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+EOF
+
+    echo "Configuring Nginx..."
+    # Create Nginx configuration
+    cat > /etc/nginx/http.d/default.conf <<'EOF'
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    root /var/www/energia-marina;
+    index index.html index.php;
+
+    server_name _;
+
+    # Security misconfiguration: Directory listing enabled
+    autoindex on;
+
+    # Allow access to hidden files (misconfiguration)
+    location ~ /\\.(?!well-known).* {
+        allow all;
+    }
+
+    location / {
+        try_files \$uri \$uri/ =404;
+    }
+
+    # PHP-FPM configuration
+    location ~ \\.php\$ {
+        fastcgi_pass 127.0.0.1:9000;
+        fastcgi_index index.php;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
+    }
+
+    # Expose sensitive directory (misconfiguration)
+    location /admin {
+        autoindex on;
+    }
+
+    location /docs {
+        autoindex on;
+    }
+}
+EOF
+
+    echo "Configuring PHP-FPM..."
+    # Configure PHP-FPM
+    sed -i 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/' /etc/php82/php.ini
+    sed -i 's/display_errors = Off/display_errors = On/' /etc/php82/php.ini
+    sed -i 's/display_startup_errors = Off/display_startup_errors = On/' /etc/php82/php.ini
+
+    # Create web root
+    mkdir -p /var/www/energia-marina
+
+    # Copy web files from synced folder
+    if [ -d "/tmp/www" ]; then
+      cp -r /tmp/www/* /var/www/energia-marina/
+    fi
+
+    # Set proper permissions
+    chown -R nginx:nginx /var/www/energia-marina
+    chmod -R 755 /var/www/energia-marina
+
+    # Start services
+    rc-update add nginx default
+    rc-update add php-fpm82 default
+
+    rc-service php-fpm82 start
+    rc-service nginx start
+
+    # Create sensitive files for directory traversal vulnerability
+    cat > /etc/energia-marina-secret.conf <<'EOF'
+# Energía Marina - Configuración Secreta
+# ¡NO COMPARTIR!
+
+DATABASE_PASSWORD=P3tr0l30_S3cr3t0_2024
+API_KEY=EM-PRIVATE-KEY-7f8a9b2c3d4e5f6g
+ADMIN_BACKUP_PASSWORD=admin_backup_xyz789
+
+# Flag de Directory Traversal
+FLAG_LFI=EM{l0c4l_f1l3_1nclus10n_p3tr0l30}
+EOF
+    chmod 644 /etc/energia-marina-secret.conf
+
+    # Create fake .git directory for security misconfiguration
+    mkdir -p /var/www/energia-marina/.git
+    cat > /var/www/energia-marina/.git/config <<'EOF'
+[core]
+    repositoryformatversion = 0
+[remote "origin"]
+    url = https://gitlab.com/energia-marina/web-internal.git
+    # Flag de configuración expuesta
+    # FLAG_CONFIG=EM{m1sc0nf1gur4t10n_gul0_mex1c0}
+EOF
+    chown -R nginx:nginx /var/www/energia-marina/.git
+
+    # Display VM information
+    echo "========================================================"
+    echo "Energía Marina Web Lab is ready!"
+    echo "========================================================"
+    echo "VM IP address(es):"
+    ip -4 addr show | grep inet | grep -v 127.0.0.1
+    echo ""
+    echo "Services running:"
+    echo "  - Web Server: http://<IP_ADDRESS>"
+    echo "  - Database: MariaDB (localhost only)"
+    echo ""
+    echo "========================================================"
+    echo "5 vulnerabilities have been deployed:"
+    echo "  1. SQL Injection"
+    echo "  2. Cross-Site Scripting (XSS)"
+    echo "  3. Directory Traversal / Local File Inclusion"
+    echo "  4. Security Misconfiguration"
+    echo "  5. Broken Authentication"
+    echo "========================================================"
+  SHELL
+
+  # Display connection info after VM is up
+  config.vm.post_up_message = <<-MSG
+    ============================================================
+    Energía Marina - Web Exploitation Lab is ready!
+    ============================================================
+
+    To find the VM's IP address, run:
+      vagrant ssh -c "ip -4 addr show eth1 | grep inet"
+
+    Access the website:
+      http://<VM_IP_ADDRESS>
+
+    Tools to use:
+      - Nmap (reconnaissance)
+      - Nikto (vulnerability scanning)
+      - OWASP ZAP (automated scanning and manual testing)
+      - Metasploit (exploitation)
+
+    Objective: Find and exploit 5 vulnerabilities
+    Capture all 5 flags!
+
+    WARNING: This VM is intentionally vulnerable!
+    Use only for educational purposes in isolated environments.
+    ============================================================
+  MSG
+end

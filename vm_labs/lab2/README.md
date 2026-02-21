@@ -1,295 +1,201 @@
-# Faky Faky Website - Social Engineering Lab
-
-**Created by:** mguirao
-**Date:** 2026-01-02
-**Purpose:** Educational lab environment for learning about social engineering
-
----
+# Lab 2: Energía Marina - Web Exploitation Lab
 
 ## Overview
 
-This project creates a local virtual machine running Alpine Linux with Apache HTTP Server, hosting a demonstration website for social engineering education. The website includes a login form and educational content about social engineering techniques and defenses.
+This lab features a vulnerable web application for **Energía Marina**, a fictional oil company based in Veracruz, Mexico. The site is intentionally vulnerable and contains 5 distinct web security flaws based on the OWASP Top 10.
 
-## Project Structure
+## Lab Information
+
+- **Company:** Energía Marina S.A. de C.V.
+- **Location:** Veracruz, Golfo de México
+- **Technology Stack:** Alpine Linux, Nginx, PHP 8.2, MariaDB
+- **Theme:** Dark hacker aesthetic with Mexican elements
+
+## Vulnerabilities Implemented
+
+This lab contains **5 flags** to capture, each corresponding to a different OWASP Top 10 vulnerability:
+
+1. **SQL Injection** (OWASP A03:2021)
+   - Location: Login form (`login.php`)
+   - Flag: `EM{5ql_1nj3ct10n_3n_v3r4cruz}`
+
+2. **Cross-Site Scripting - XSS** (OWASP A03:2021)
+   - Location: Contact form (`contacto.php`)
+   - Flag: `EM{cr0ss_s1t3_scr1pt1ng_m4r1n0}`
+
+3. **Directory Traversal / Local File Inclusion** (OWASP A01:2021)
+   - Location: Dashboard document viewer (`dashboard.php?doc=`)
+   - Flag: `EM{l0c4l_f1l3_1nclus10n_p3tr0l30}`
+
+4. **Security Misconfiguration** (OWASP A05:2021)
+   - Location: phpinfo page, exposed .git directory, directory listing
+   - Flag: `EM{m1sc0nf1gur4t10n_gul0_mex1c0}`
+
+5. **Broken Authentication** (OWASP A07:2021)
+   - Location: Admin panel (`admin/index.php`)
+   - Flag: `EM{br0k3n_4uth_3n3rg14_m4r1n4}`
+
+## Quick Start
+
+### Prerequisites
+- Vagrant installed
+- VirtualBox installed
+- At least 2GB RAM available
+- Network interface for bridged networking
+
+### Setup Instructions
+
+1. **Navigate to lab directory:**
+   ```bash
+   cd lab2
+   ```
+
+2. **Update bridged network interface in Vagrantfile (if needed):**
+   - Check line 21 of `Vagrantfile`
+   - Change `bridge: "wlp4s0"` to your network interface
+   - Find your interface: `ip link show` or `ifconfig`
+
+3. **Start the VM:**
+   ```bash
+   vagrant up
+   ```
+   ⏱️ First run takes 5-10 minutes
+
+4. **Get the VM's IP address:**
+   ```bash
+   vagrant ssh -c "ip -4 addr show eth1 | grep inet"
+   ```
+
+5. **Access the website:**
+   ```
+   http://<VM_IP_ADDRESS>
+   ```
+
+## VM Services
+
+- **Web Server:** Nginx (port 80)
+- **Database:** MariaDB (localhost only)
+- **PHP Version:** 8.2
+
+## Tools Recommended
+
+Students should use the following tools:
+- **Nmap** - Port scanning and service enumeration
+- **Nikto** - Web server vulnerability scanner
+- **OWASP ZAP** - Web application security scanner
+- **Metasploit** - Exploitation framework
+- **Browser DevTools** - Inspect, modify cookies, network traffic
+- **cURL** - Manual HTTP requests
+
+## File Structure
 
 ```
 lab2/
-├── Vagrantfile          # VM configuration
-├── README.md            # This file
-└── www/                 # Website files
-    ├── index.html       # Main webpage with login form
-    ├── style.css        # Stylesheet
-    └── script.js        # JavaScript for form interaction
+├── Vagrantfile                    # VM configuration
+├── README.md                      # This file
+├── ASSIGNMENT.md                  # Student assignment document
+├── TEACHERS_GUIDE.md              # Teacher's exploitation guide
+└── www/                           # Web application files
+    ├── index.html                 # Main homepage
+    ├── login.php                  # Login (SQL Injection)
+    ├── dashboard.php              # Dashboard (LFI/Directory Traversal)
+    ├── contacto.php               # Contact form (XSS)
+    ├── produccion.php             # Production data page
+    ├── info.php                   # phpinfo (Misconfiguration)
+    ├── logout.php                 # Logout script
+    ├── config.php                 # Database configuration
+    ├── admin/
+    │   └── index.php              # Admin panel (Broken Auth)
+    ├── css/
+    │   └── style.css              # Dark theme stylesheet
+    └── docs/
+        ├── manual_seguridad.txt   # Sample document
+        └── procedimientos.txt     # Sample document
 ```
 
-## Configuration Details
+## VM Management
 
-- **Operating System:** Alpine Linux (generic/alpine316)
-- **Web Server:** Apache HTTP Server (latest)
-- **VM IP Address:** 192.168.56.10
-- **Domain Name:** fakyfakywebsite.com
-- **Memory:** 512 MB
-- **CPUs:** 1
-
-## Setup Instructions
-
-### Prerequisites
-
-1. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
-2. Install [Vagrant](https://www.vagrantup.com/downloads)
-
-### Step 1: Start the Virtual Machine
-
-Navigate to the project directory and start the VM:
-
+**Stop the VM:**
 ```bash
-cd /home/mguirao/code/infosec/vm_labs/lab2
-vagrant up
-```
-
-This will:
-- Download the Alpine Linux box (first time only)
-- Configure the VM with a private network IP
-- Install Apache HTTP Server
-- Copy website files to the web root
-- Start the Apache service
-
-### Step 2: Configure Your Host File
-
-To access the website using the domain name `fakyfakywebsite.com`, you need to add an entry to your host machine's hosts file.
-
-#### On Linux/Mac:
-
-```bash
-sudo nano /etc/hosts
-```
-
-Add this line:
-```
-192.168.56.10  fakyfakywebsite.com
-```
-
-Save and exit (Ctrl+X, then Y, then Enter)
-
-#### On Windows:
-
-1. Open Notepad as Administrator
-2. Open: `C:\Windows\System32\drivers\etc\hosts`
-3. Add this line:
-   ```
-   192.168.56.10  fakyfakywebsite.com
-   ```
-4. Save the file
-
-### Step 3: Access the Website
-
-Open your web browser and navigate to:
-
-- **Using domain name:** http://fakyfakywebsite.com
-- **Using IP address:** http://192.168.56.10
-- **Using port forwarding:** http://localhost:8080
-
-## Demo Login Credentials
-
-For testing the login form:
-
-- **Username:** demo
-- **Password:** demo123
-
-Alternative (demonstrates weak credentials):
-- **Username:** admin
-- **Password:** password
-
-**Note:** The authentication is client-side only for demonstration purposes. Real applications should never implement authentication this way!
-
-## Vagrant Commands
-
-Useful commands for managing your VM:
-
-```bash
-# Start the VM
-vagrant up
-
-# Stop the VM
 vagrant halt
+```
 
-# Restart the VM
+**Restart the VM:**
+```bash
 vagrant reload
+```
 
-# Delete the VM
+**Destroy the VM:**
+```bash
 vagrant destroy
-
-# SSH into the VM
-vagrant ssh
-
-# Check VM status
-vagrant status
-
-# Re-run provisioning
-vagrant provision
 ```
 
-## Inside the VM
-
-If you need to SSH into the VM and work with Apache:
-
+**SSH into the VM:**
 ```bash
 vagrant ssh
 ```
 
-Once inside the VM:
+## Default Credentials
 
-```bash
-# Check Apache status
-sudo rc-status | grep apache2
+For SQL injection testing and authentication bypass:
 
-# Start Apache
-sudo service apache2 start
+| Username | Password | Level |
+|----------|----------|-------|
+| admin | admin123 | admin |
+| jperez | veracruz2024 | user |
+| mrodriguez | password | user |
+| lgarcia | qwerty | user |
 
-# Stop Apache
-sudo service apache2 stop
+## Security Warning
 
-# Restart Apache
-sudo service apache2 restart
+⚠️ **This VM is INTENTIONALLY VULNERABLE**
 
-# View Apache logs
-sudo tail -f /var/log/apache2/fakyfakywebsite-access.log
-sudo tail -f /var/log/apache2/fakyfakywebsite-error.log
-
-# View website files
-ls -la /var/www/fakyfakywebsite.com/public_html/
-```
-
-## Features
-
-### Website Components
-
-1. **Login Form**
-   - Username and password fields
-   - Remember me checkbox
-   - Password recovery link
-   - Registration link
-   - Client-side validation
-
-2. **Educational Content**
-   - Introduction to social engineering
-   - Visual examples with placeholder images
-   - Information cards about:
-     - Psychological manipulation
-     - Common techniques
-     - Protection strategies
-     - Training importance
-
-3. **Interactive JavaScript**
-   - Form validation
-   - Visual feedback
-   - Demo authentication
-   - Educational messages
-
-### Security Education Features
-
-- Demonstrates the importance of strong credentials
-- Shows client-side validation (and its limitations)
-- Includes educational warnings about production security
-- Console messages with security best practices
+- Do NOT expose to the internet
+- Use ONLY in isolated lab environments
+- Do NOT deploy in production networks
+- All vulnerabilities are for educational purposes
 
 ## Troubleshooting
 
-### VM won't start
-```bash
-# Check VirtualBox is running
-VBoxManage --version
+**VM doesn't get an IP:**
+- Check bridged network interface name in Vagrantfile
+- Verify your host machine has network connectivity
+- Try using a different network interface
 
-# Destroy and recreate the VM
-vagrant destroy -f
-vagrant up
-```
+**Can't access the website:**
+- Verify VM is running: `vagrant status`
+- Check IP address: `vagrant ssh -c "ip -4 addr"`
+- Ping the VM from your host machine
+- Check firewall settings
 
-### Website not loading
-```bash
-# Check if Apache is running in the VM
-vagrant ssh -c "sudo rc-status | grep apache2"
+**Database connection errors:**
+- SSH into VM: `vagrant ssh`
+- Check MariaDB status: `sudo rc-service mariadb status`
+- Restart if needed: `sudo rc-service mariadb restart`
 
-# Check website files exist
-vagrant ssh -c "ls -la /var/www/fakyfakywebsite.com/public_html/"
+## Learning Objectives
 
-# Restart Apache
-vagrant ssh -c "sudo service apache2 restart"
-```
-
-### Domain name not working
-- Verify the hosts file entry is correct
-- Try accessing via IP: http://192.168.56.10
-- Clear browser cache
-- Try a different browser
-
-### Port conflict (8080 already in use)
-Edit the Vagrantfile and change the forwarded port:
-```ruby
-config.vm.network "forwarded_port", guest: 80, host: 8081, host_ip: "127.0.0.1"
-```
-Then run `vagrant reload`
-
-## Educational Context
-
-This lab environment is designed for:
-- Understanding social engineering attack vectors
-- Learning about web application security
-- Practicing secure development concepts
-- Demonstrating common vulnerabilities
-
-**IMPORTANT:** This is for educational purposes only. Do not use these techniques for malicious purposes. Always obtain proper authorization before performing security testing.
-
-## Original Prompt
-
-> Create a Vagrantfile using the Linux Alpine distro, with the latest Apache http server. Make sure the webserver can be reached on a LAN by using the internal domain name fakyfakywebsite.com. Maybe you will need to modify the host file in order to achieve this. Once you make sure that the http service is running and accessible using the internal domain name, also create a basic webpage using HTML, CSS and Javascript that presents to the user a login form to the "Faky Faky Website" where users can learn all about Social Engineering. This VM should have assigned a local IP address so it can be reached by a LAN IP address. Save this prompt as part of the documentation of the Vagrantfile, along with my username, date and time. If you have any question, ask me. Include a couple of images on the webpage related to Social Engineering.
-
----
-
-## License
-
-Educational Use Only - Information Security Lab Environment
+By completing this lab, students will:
+- Master web vulnerability scanning with Nikto and OWASP ZAP
+- Understand and exploit OWASP Top 10 vulnerabilities
+- Practice reconnaissance and enumeration techniques
+- Develop professional penetration testing documentation skills
+- Learn remediation strategies for web vulnerabilities
 
 ## Support
 
-For issues or questions, refer to the Vagrant and VirtualBox documentation:
-- [Vagrant Documentation](https://www.vagrantup.com/docs)
-- [VirtualBox Documentation](https://www.virtualbox.org/wiki/Documentation)
+For technical issues or questions:
+- Review the ASSIGNMENT.md document
+- Consult the TEACHERS_GUIDE.md (instructors only)
+- Check VM logs: `vagrant ssh -c "tail -f /var/log/nginx/error.log"`
 
+## Credits
 
-VM Status:
-  - Alpine Linux VM running
-  - Apache HTTP Server installed and started
-  - Website files deployed correctly (index.html, style.css, script.js)
-  - Accessible at IP: http://192.168.56.10
+- **Created:** February 2026
+- **Author:** Miguel Guirao
+- **Course:** Introduction to Cybersecurity
+- **Institution:** Educational lab environment
 
-  What's Working:
-  - HTTP server responding on port 80
-  - All 3 website files present in /var/www/fakyfakywebsite.com/public_html/
-  - Apache service running and set to start on boot
+---
 
-  Next Steps
-
-  1. Add Host Entry (Required for domain name access)
-
-  On Linux/Mac:
-  sudo nano /etc/hosts
-  Add this line:
-  192.168.56.10  fakyfakywebsite.com
-
-  On Windows:
-  Run Notepad as Administrator, open C:\Windows\System32\drivers\etc\hosts, and add:
-  192.168.56.10  fakyfakywebsite.com
-
-  2. Access the Website
-
-  Open your browser and visit:
-  - http://fakyfakywebsite.com (after adding hosts entry)
-  - http://192.168.56.10 (works now without hosts file)
-  - http://localhost:8080 (port forwarding)
-
-  3. Try the Login Form
-
-  Demo credentials:
-  - Username: demo
-  - Password: demo123
+**Good luck and happy hacking! 🔐**

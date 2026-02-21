@@ -17,4 +17,5 @@ slides/
 vm_labs/.vagrant/
 name_picker.py
 instructor/
+vm_labs/lab2/.vagrant/
 

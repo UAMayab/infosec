@@ -1,0 +1,32 @@
+ENERGÍA MARINA S.A. DE C.V.
+Procedimientos Operativos Estándar
+Actualizado: Diciembre 2023
+
+========================================
+DOCUMENTO INTERNO
+========================================
+
+PROCEDIMIENTOS DIARIOS DE PLATAFORMA
+
+1. Inicio de Turno (06:00 hrs)
+   - Revisión de equipos
+   - Inspección de seguridad
+   - Reunión de coordinación
+
+2. Monitoreo de Producción
+   - Verificar niveles de extracción
+   - Registrar datos cada 2 horas
+   - Reportar anomalías inmediatamente
+
+3. Mantenimiento Preventivo
+   - Inspección semanal de válvulas
+   - Revisión mensual de sistemas eléctricos
+   - Calibración trimestral de sensores
+
+4. Fin de Turno (18:00 hrs)
+   - Completar bitácora
+   - Transferencia de responsabilidades
+   - Verificación de seguridad
+
+Para más información, contactar a:
+ops@energiamarina.mx

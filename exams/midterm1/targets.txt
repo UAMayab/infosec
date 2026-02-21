@@ -1,0 +1,15 @@
+# Targets
+## You are free to chose whatever two targets from he following list.
+## The only restriction is that one should run any version of Windows.
+## And the other target must be a Linux/Unix system.
+## Happy hacking!
+189.172.195.189
+189.172.143.216
+189.172.187.136
+189.172.158.127
+189.172.181.45
+187.147.61.7
+187.175.164.130
+187.147.108.146
+187.155.35.122
+187.174.251.74
