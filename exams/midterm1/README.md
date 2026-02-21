@@ -5,13 +5,13 @@
 
 ---
 
-> **Submission:** Teams of two (2) students
-> **Format:** Single PDF document (see deliverables section)
-> **Due Date:** March 2dn. Midnight, 2026.
+- **Submission:** Teams of two (2) students
+- **Format:** Single PDF document (see deliverables section)
+- **Due Date:** March 2dn. Midnight, 2026.
 
 ---
 
-## ⚠️LEGAL DISCLAIMER
+## LEGAL DISCLAIMER
 
 ```
 ╔══════════════════════════════════════════════════════════════════════════╗
@@ -104,8 +104,8 @@ Your target list is in `targets.txt`. Review it carefully.
 ║                                                                          ║
 ║   You MUST choose EXACTLY TWO (2) IP addresses from targets.txt          ║
 ║                                                                          ║
-║       ✔  Target #1 — Must be a WINDOWS system                           ║
-║       ✔  Target #2 — Must be a LINUX / UNIX system                      ║
+║       ✔  Target #1 — Must be a WINDOWS system                            ║
+║       ✔  Target #2 — Must be a LINUX / UNIX system                       ║
 ║                                                                          ║
 ║   All phases of the exam (recon, scanning, OpenVAS) are performed        ║
 ║   ONLY on these two selected targets. No exceptions.                     ║
