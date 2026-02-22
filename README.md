@@ -26,6 +26,10 @@ Welcome to your journey into the essential field of cybersecurity. In our increa
 - [Midterm #2]()
 - [Final Exam]()
 
+## QUIZ SERVER
+The IP address of the server is provided by Brightspace.
+- [Online Quiz Server](chat_README.md)
+
 ## CERTIFICATIONS 
 
 This course is designed according to the exam objectives of two entry-level security certifications that are very popular in the market. This course is designed to prepare you to pass the TestOut Ethical Hacker Pro (CompTIA) and EC-Council Certified Ethical Hacker certifications. This certification measures not just what you know, but what you can do to evaluate a system's security and make recommendations to make the system more secure. 
