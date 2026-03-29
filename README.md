@@ -27,6 +27,20 @@ Welcome to your journey into the essential field of cybersecurity. In our increa
 - [Operation OPEN SOCKET — ss: The Network Analyst's Scalpel](workshops/ss_workshop.md)
 
 
+## VM LABS
+
+| Lab | Title | Description |
+|-----|-------|-------------|
+| [Lab 0](vm_labs/lab0/README.md) | Nmap Workshop — Vulnerable VM | Introduction to network scanning and service enumeration with Nmap against a purpose-built vulnerable target |
+| [Lab 1](vm_labs/lab1/README.md) | Web Exploitation & Reconnaissance | Vulnerability assessment and exploitation fundamentals using web-based attack techniques |
+| [Lab 2](vm_labs/lab2/README.md) | Energía Marina — Web Exploitation | Scenario-driven web exploitation lab targeting a fictional industrial company |
+| [Lab 3](vm_labs/lab3/README.md) | Liverpul Corp — Vulnerable VM | General-purpose vulnerable VM environment for security testing and practice |
+| [Lab 4](vm_labs/lab4/README.md) | Lab 4 | Hands-on security lab with a custom vulnerable VM |
+| [Lab 5](vm_labs/lab5/README.md) | Web Exploitation with DVWA | OWASP Top 10:2025 — exploit SQLi, XSS, CSRF, file upload, and command injection against DVWA |
+| [Lab 6](vm_labs/lab6/README.md) | Malware Triage with VirusTotal | Triage 10 real-world file hashes using VirusTotal and produce a written incident analyst report |
+| [Lab 7](vm_labs/lab7/README.md) | Password Cracking with John the Ripper and Hashcat | Extract Linux shadow hashes and Windows NTLM hashes via reverse shell, then crack them with John and hashcat |
+
+
 ## EXAMS
 - [Midterm #1](exams/midterm1/README.md)
 - [Midterm #2]()

