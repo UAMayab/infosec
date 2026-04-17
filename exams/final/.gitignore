@@ -8,7 +8,7 @@ provision/*.sh
 !provision/loader.sh
 
 # Exam key — distribute to students separately (BrightSpace / in-person)
-provision/.exam_key
+# provision/.exam_key
 
 # Encryption tool — instructor only
 tools/
