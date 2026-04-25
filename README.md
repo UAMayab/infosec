@@ -39,6 +39,10 @@ Welcome to your journey into the essential field of cybersecurity. In our increa
 | [Lab 5](vm_labs/lab5/README.md) | Web Exploitation with DVWA | OWASP Top 10:2025 — exploit SQLi, XSS, CSRF, file upload, and command injection against DVWA |
 | [Lab 6](vm_labs/lab6/README.md) | Malware Triage with VirusTotal | Triage 10 real-world file hashes using VirusTotal and produce a written incident analyst report |
 | [Lab 7](vm_labs/lab7/README.md) | Password Cracking with John the Ripper and Hashcat | Extract Linux shadow hashes and Windows NTLM hashes via reverse shell, then crack them with John and hashcat |
+| [Lab 8](vm_labs/lab8/README.md) | Firewall Hardening with UFW and iptables | Configure and harden a Linux firewall using UFW and iptables rules on a purpose-built VM |
+| [Lab 9](vm_labs/lab9/README.md) | Operation VAULT BREACH — Web App Security CTF | Capture 10 flags by exploiting OWASP Top 10:2025 vulnerabilities in a Node.js banking application |
+| [Lab 10](vm_labs/lab10/README.md) | Web Application Security Field Guide | DVWA exploitation reference covering 12 vulnerabilities with Purple Team analysis and payload cheat sheets |
+| [Lab 11](vm_labs/lab11/README.md) | Operation AIRWAVE — Wardriving & WiFi Security Assessment | Passive wireless survey using aircrack-ng suite and gpsd; classify network security posture and deliver a professional assessment report |
 
 
 ## EXAMS

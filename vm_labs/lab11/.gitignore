@@ -1,0 +1,18 @@
+# Instructor-only — do not distribute to students
+grading/
+
+# Student submissions and generated grades
+submissions/
+grades/
+
+# Wardriving capture files (large, sensitive)
+*.cap
+*.pcap
+*.csv
+*.netxml
+*.kismet.netxml
+*.kml
+
+# Python cache
+__pycache__/
+*.pyc
