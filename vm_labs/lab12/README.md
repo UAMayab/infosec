@@ -19,11 +19,11 @@
 ║                   FOR EDUCATIONAL PURPOSES ONLY                          ║
 ╠══════════════════════════════════════════════════════════════════════════╣
 ║                                                                          ║
-║  All activities in this lab are performed against a local VM you own.   ║
+║  All activities in this lab are performed against a local VM you own.    ║
 ║  The techniques shown here are standard system administration and        ║
 ║  security hardening practices used by professionals worldwide.           ║
 ║                                                                          ║
-║  This lab promotes the ethical application of cryptography to protect   ║
+║  This lab promotes the ethical application of cryptography to protect    ║
 ║  user privacy and data integrity.                                        ║
 ║                                                                          ║
 ╚══════════════════════════════════════════════════════════════════════════╝
@@ -135,9 +135,9 @@ TLS (Transport Layer Security) protects web traffic through three mechanisms wor
 
 ```
   CLIENT                                    SERVER
-    │                                         │
-    │──── ClientHello (cipher list) ─────────▶│
-    │◀─── ServerHello + Certificate ──────────│
+    │                                          │
+    │──── ClientHello (cipher list) ─────────▶ │
+    │◀─── ServerHello + Certificate ────────── │
     │     (server's public key + identity)     │
     │──── Verify cert, generate session key ──▶│
     │     (encrypted with server's public key) │
